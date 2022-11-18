@@ -31,10 +31,10 @@ params:
   logoAlt: An alternative text description of the logo
   customCss:
     - css/custom_01.css
-    - css/custom_02.css
+    # - css/custom_02.css
   customJs:
-    - js/custom_01.js
-    - js/custom_02.js
+    # - js/custom_01.js
+    # - js/custom_02.js
 
 menu:
   nav:

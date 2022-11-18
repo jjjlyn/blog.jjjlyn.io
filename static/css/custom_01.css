@@ -1,0 +1,16 @@
+body {
+  font-size: calc(1em + 0.33vw);
+  font-family: Nanum Gothic, Arial, Helvetica Neue, sans-serif;
+  line-height: 1.5;
+  color: #111;
+  background-color: #fefefe;
+  overscroll-behavior-y: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: Miriam Libre, Nanum Gothic, serif;
+    line-height: 1.125;
+}
