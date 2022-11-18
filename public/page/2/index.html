@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>JEONG LYNN의 안드로이드</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <meta name="generator" content="Hugo 0.106.0">
+  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="JEONG LYNN의 안드로이드 Feed" />
+  <link rel="stylesheet" href="/style.c6ca9ae89ebfaa2e16cc5dbfbe000b2b21efad56306f626e7a6cd5eb3da66c9f.css" />
+  <script defer src="/script.5239f359e84e29304331105377f7c48412ff823b1f4aafe4a0291e3da5ed633b.js" integrity="sha256-UjnzWehOKTBDMRBTd/fEhBL/gjsfSq/koCkePaXtYzs="></script>
+  
+
+</head>
+<body>
+<div class="pure-g">
+  <div class="pure-u-1-24 pure-u-md-5-24"></div>
+  <div class="pure-u-22-24 pure-u-md-14-24">
+  
+<div class="navigation">
+  <div class="navigation-header clearfix">
+    <div class="pure-menu pure-menu-horizontal">
+      <a class="pure-menu-heading pure-menu-link" href="/">
+        JEONG LYNN의 안드로이드
+      </a>
+    </div>
+  </div>
+</div>
+
+  
+<div>
+  <div>
+    <h2 class="post-title">
+      
+      <a href="/posts/android-docs/">안드로이드 개발 회고록</a>
+    </h2>
+    
+
+  </div>
+  <div>
+    서비스 개발부터 출시까지의 과정에서 발생한 문제와 이를 해결하기 위한 방법을 공유하고자 합니다. 이 밖에도 특정 기술 혹은 개념에 관하여 개인적으로 이해한 내용을 정리한 자료가 포함되어 있습니다.
+안드로이드 기본 중의 기본 - Android Architecture (완) 애증의 RecyclerView 포지션 유지 Vertical Scroll Horizontal Scroll Multi View Type ConcatAdapter는 만능인가 ListAdapter DiffUtil PagingAdapter Access Token을 어떻게 단 한번만 갱신할 수 있을까 커스텀뷰 극복기 초보: 프로그래스바 중급: 3*3 뷰페이저 인디케이터 고급: 쿠팡이츠 슬라이드 클론 대세는 Clean Architecture Model-View-Whatever Hilt란 무엇이며, 왜 DI 툴로 Hilt를 선택했는가 (2022-11-14) 디자인 시스템 적용기 폰트 재사용 레이아웃(컴포넌트) 재사용 Coroutines &amp; Flow 정확히 알고 쓰나 (90%) 앱 크래시 발생 어떻게 대응하는가 Gradle 설정 (feat.
+  </div>
+</div>
+<div>
+  <div>
+    <h2 class="post-title">
+      DRAFT: 
+      <a href="/posts/renew-access-token/">액세스 토큰을 어떻게 단 한번만 갱신할 수 있을까?</a>
+    </h2>
+    
+
+  </div>
+  <div>
+    @Singleton class AuthInterceptor @Inject constructor( context: Context, private val authDataStore: AuthDataStore, @UDIDInterceptor private val udidInterceptor: Interceptor, @StethoInterceptor private val stethoInterceptor: Interceptor ) : Interceptor { private val gson = GsonBuilder().setDateFormat(&#34;yyyy-MM-dd&#39;T&#39;HH:mm:ss.SSSXXX&#34;).create() private val mutex = Mutex() private var limitCnt = 0 private val okHttpClient = OkHttpClient.Builder() .cache(Cache(context.cacheDir, 1 * 1024 * 1024)) // 1 MB .addInterceptor(HttpLoggingInterceptor().apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE }) .followRedirects(false) .addInterceptor(OkHttpInterceptors.createOkHttpInterceptor()) .addNetworkInterceptor(OkHttpInterceptors.createOkHttpNetworkInterceptor()) .addNetworkInterceptor(udidInterceptor) .addNetworkInterceptor(stethoInterceptor) .build() private val retrofit = Retrofit.
+  </div>
+</div>
+<div>
+  <div>
+    <h2 class="post-title">
+      DRAFT: 
+      <a href="/posts/handle-app-crash/">앱 크래시 대응 방법</a>
+    </h2>
+    
+
+  </div>
+  <div>
+    
+  </div>
+</div>
+<div>
+  <div>
+    <h2 class="post-title">
+      DRAFT: 
+      <a href="/posts/proguard/">프로가드</a>
+    </h2>
+    
+
+  </div>
+  <div>
+    
+  </div>
+</div>
+
+  <div class="pagination-content">
+    <div class="pure-menu pure-menu-horizontal">
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item pure-menu-disabled">
+          Pages
+        </li>
+        <li class="pure-menu-item">
+          <a href="/" class="pure-menu-link">First</a>
+        </li>
+        <li class="pure-menu-item pure-menu-selected">
+          <a href="/page/2/" class="pure-menu-link">Last</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+  <div class="pure-menu pure-menu-horizontal">
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item" title="RSS Feed">
+        <a href="/index.xml" class="pure-menu-link">RSS</a>
+      </li>
+      <li class="pure-menu-item fix-cursor-pointer" title="Go to top">
+        <a class="pure-menu-link" id="btn-gototop">
+          <span class="fix-placement-up">&#x21e7;&#xfe0e;</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+  </div>
+  <div class="pure-u-1-24 pure-u-md-5-24"></div>
+</div>
+</body>
+</html>

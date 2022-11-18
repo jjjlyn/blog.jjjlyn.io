@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on JEONG LYNN의 안드로이드</title>
+    <link>https://jjjlyn.netlify.app/tags/</link>
+    <description>Recent content in Tags on JEONG LYNN의 안드로이드</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>prize1142@gmail.com (정린(JEONG LYNN))</managingEditor>
+    <webMaster>prize1142@gmail.com (정린(JEONG LYNN))</webMaster>
+    <lastBuildDate>Fri, 18 Nov 2022 13:39:56 +0900</lastBuildDate><atom:link href="https://jjjlyn.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android</title>
+      <link>https://jjjlyn.netlify.app/tags/android/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/tags/android/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infra</title>
+      <link>https://jjjlyn.netlify.app/tags/infra/</link>
+      <pubDate>Wed, 16 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/tags/infra/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

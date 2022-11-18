@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on JEONG LYNN의 안드로이드</title>
+    <link>https://jjjlyn.netlify.app/series/</link>
+    <description>Recent content in Series on JEONG LYNN의 안드로이드</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>prize1142@gmail.com (정린(JEONG LYNN))</managingEditor>
+    <webMaster>prize1142@gmail.com (정린(JEONG LYNN))</webMaster><atom:link href="https://jjjlyn.netlify.app/series/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on JEONG LYNN의 안드로이드</title>
+    <link>https://jjjlyn.netlify.app/categories/android/</link>
+    <description>Recent content in Android on JEONG LYNN의 안드로이드</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <managingEditor>prize1142@gmail.com (정린(JEONG LYNN))</managingEditor>
+    <webMaster>prize1142@gmail.com (정린(JEONG LYNN))</webMaster>
+    <lastBuildDate>Fri, 18 Nov 2022 13:39:56 +0900</lastBuildDate><atom:link href="https://jjjlyn.netlify.app/categories/android/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android Architecture</title>
+      <link>https://jjjlyn.netlify.app/posts/architecture/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/architecture/</guid>
+      <description>들어가기에 앞서 본 문서에서 출처를 명시하지 않은 첨부 이미지는 작성자가 직접 제작한 작업물입니다. 2차 가공, 공유 등을 하여도 문제되지 않으나 내용에 오류가 있을 수 있으므로 권장하지 않습니다. 잘못된 내용으로 발생하는 피해에 대해서는 책임을 지지 않습니다.
+안드로이드 앱은 익숙해지면 찰리 채플린이 컨베이어 벨트에서 나사를 조이는 것 마냥 반복적으로 찍어낼 수 있게 됩니다. 그러나 전체 플랫폼의 동작 원리를 이해하는 것은 여전히 쉽지 않습니다. 시스템 관련한 비슷한 주제의 책들을 몇번이나 뒤적여도 뒤돌면 잊어버리더군요. 아무래도 확실한 이해가 부족한 탓인 것 같습니다.</description>
+    </item>
+    
+    <item>
+      <title>App Bundle이란?</title>
+      <link>https://jjjlyn.netlify.app/posts/app-bundle-vs-apk/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/app-bundle-vs-apk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Clean Architecture</title>
+      <link>https://jjjlyn.netlify.app/posts/clean-architecture/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/clean-architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Coroutines &amp; Flow</title>
+      <link>https://jjjlyn.netlify.app/posts/coroutines-flow/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/coroutines-flow/</guid>
+      <description>비동기(asynchronous) 처리에 주로 사용하는 Coroutines &amp;amp; Flow에 대해 알아보겠습니다. 하단 참고란에 명시한 서적과 작성자의 개발 경험을 토대로 이해한 것에 대해서만 기술합니다.
+코루틴 왜 사용하는가? 스레드보다 비용이 저렴합니다! 스레드 중심적인 프로그래밍에서는 많은 스레드를 생성하는 것에 대한 부담이 있습니다. 스레드는 heap 공간을 꽤 많이 소비합니다. 게다가 스레드 간의 컨텍스트 스위칭이 발생하면 이에 따른 오버헤드가 생깁니다.
+그러나 코루틴은 스레드에 비해 가성비가 좋습니다. 왜 Why?
+(작성 중)
+또한 비동기 코드를 동기 코드처럼 보이도록 하여 Callback Hell에서 벗어날 수 있습니다.</description>
+    </item>
+    
+    <item>
+      <title>Custom View</title>
+      <link>https://jjjlyn.netlify.app/posts/custom-view/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/custom-view/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Presentation Architecture</title>
+      <link>https://jjjlyn.netlify.app/posts/data-presentation-architecture/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/data-presentation-architecture/</guid>
+      <description>Android Data Presentation Architecture - MVC, MVP, MVVM, MVI MVC, MVP, MVVM, MVI 등 MV 접두어가 달린 친구들은 Data Presentation(Clean Architecture 관점에서 Presentation Layer)을 위한 소프트웨어 아키텍처 패턴입니다.(안드로이드 앱 전체를 위한 아키텍처로 착각하면 안 됩니다!!) GUI 어플리케이션은 어찌되었든 사용자에게 fancy~~한 화면을 보여주는게 주 목적입니다. 오늘도 개발자가 안 된다고 말했다라는 책을 아시나요? UI 변경은 하루가 멀다하고 일어나는 이슈입니다. 그렇기 때문에 외형만 바꾸되 그 기반을 이루는 데이터에 변형이 일어나지 않도록 하는 것이 리소스(시간, 비용) 측면에서 매우 중요합니다.</description>
+    </item>
+    
+    <item>
+      <title>DI (Dependency Injection)</title>
+      <link>https://jjjlyn.netlify.app/posts/di/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/di/</guid>
+      <description>DI (Dependency Injection) Dependency란? A가 B에 의존한다는 것은 B가 변경되면 이에 따라 A도 변경될 수 있음을 의미합니다. 이는 유지보수 비용을 증가시키거나 예기치 못한 버그를 발생시킬 수 있습니다. 그러나 의존성이 없는 코드를 짜기란 불가능합니다.
+의존성은 크게 4가지 타입으로 구분됩니다.
+Implementation Inheritance : 가장 강한 형태의 의존성 입니다. (abstract class나 open class를 implements한 형태) Composition : 객체(Object)의 호출(invocation)과 생성(creation)이 분리되지 않은 상태입니다. 전체에서 부분의 생성도 책임지기 때문에, 전체와 부분이 동일한 생명주기를 갖습니다.(전체가 종료될 때 부분도 파괴됩니다) 전체는 부분의 구현체를 압니다.</description>
+    </item>
+    
+    <item>
+      <title>Gradle</title>
+      <link>https://jjjlyn.netlify.app/posts/gradle/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/gradle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RecyclerView</title>
+      <link>https://jjjlyn.netlify.app/posts/recyclerview/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/recyclerview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>디자인 시스템</title>
+      <link>https://jjjlyn.netlify.app/posts/design-system/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/design-system/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>액세스 토큰을 어떻게 단 한번만 갱신할 수 있을까?</title>
+      <link>https://jjjlyn.netlify.app/posts/renew-access-token/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/renew-access-token/</guid>
+      <description>@Singleton class AuthInterceptor @Inject constructor( context: Context, private val authDataStore: AuthDataStore, @UDIDInterceptor private val udidInterceptor: Interceptor, @StethoInterceptor private val stethoInterceptor: Interceptor ) : Interceptor { private val gson = GsonBuilder().setDateFormat(&amp;#34;yyyy-MM-dd&amp;#39;T&amp;#39;HH:mm:ss.SSSXXX&amp;#34;).create() private val mutex = Mutex() private var limitCnt = 0 private val okHttpClient = OkHttpClient.Builder() .cache(Cache(context.cacheDir, 1 * 1024 * 1024)) // 1 MB .addInterceptor(HttpLoggingInterceptor().apply { level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE }) .followRedirects(false) .addInterceptor(OkHttpInterceptors.createOkHttpInterceptor()) .addNetworkInterceptor(OkHttpInterceptors.createOkHttpNetworkInterceptor()) .addNetworkInterceptor(udidInterceptor) .addNetworkInterceptor(stethoInterceptor) .build() private val retrofit = Retrofit.</description>
+    </item>
+    
+    <item>
+      <title>앱 크래시 대응 방법</title>
+      <link>https://jjjlyn.netlify.app/posts/handle-app-crash/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/handle-app-crash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>프로가드</title>
+      <link>https://jjjlyn.netlify.app/posts/proguard/</link>
+      <pubDate>Fri, 18 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/proguard/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>안드로이드 개발 회고록 (목차)</title>
+      <link>https://jjjlyn.netlify.app/posts/android-docs/</link>
+      <pubDate>Thu, 17 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/android-docs/</guid>
+      <description>서비스 개발부터 출시까지의 과정에서 발생한 문제와 이를 해결하기 위한 방법을 공유하고자 합니다. 이 밖에도 특정 기술 혹은 개념에 관하여 개인적으로 이해한 내용을 정리한 자료가 포함되어 있습니다.
+안드로이드 기본 중의 기본 - Android Architecture (완) 애증의 RecyclerView 포지션 유지 Vertical Scroll Horizontal Scroll Multi View Type ConcatAdapter는 만능인가 ListAdapter DiffUtil PagingAdapter Access Token을 어떻게 단 한번만 갱신할 수 있을까 커스텀뷰 극복기 초보: 프로그래스바 중급: 3*3 뷰페이저 인디케이터 고급: 쿠팡이츠 슬라이드 클론 대세는 Clean Architecture Model-View-Whatever Hilt란 무엇이며, 왜 DI 툴로 Hilt를 선택했는가 (2022-11-14) 디자인 시스템 적용기 폰트 재사용 레이아웃(컴포넌트) 재사용 Coroutines &amp;amp; Flow 정확히 알고 쓰나 (90%) 앱 크래시 발생 어떻게 대응하는가 Gradle 설정 (feat.</description>
+    </item>
+    
+    <item>
+      <title>안드로이드 어플리케이션 CI/CD 파이프라인 구축</title>
+      <link>https://jjjlyn.netlify.app/posts/android-ci-cd/</link>
+      <pubDate>Wed, 16 Nov 2022 13:39:56 +0900</pubDate>
+      <author>prize1142@gmail.com (정린(JEONG LYNN))</author>
+      <guid>https://jjjlyn.netlify.app/posts/android-ci-cd/</guid>
+      <description>빌드와 배포용 도구로 Azure Pipelines를 사용합니다.
+지속적 통합(CI) develop 브랜치로 코드가 푸시되면 트리거되도록 설정합니다. trigger: branches: include: - develop platform-tools 31.0.3에서 오류가 나서 cmd line에서 31.0.1로 변경했습니다. (이 과정은 일반적인 CI 환경에서는 필요없는 절차입니다.) $ANDROID_HOME은 Azure에서 사전에 지정해 놓은 환경변수로 /Users/runner/Library/Android/sdk/의 경로가 지정되어 있습니다. - script: | rm -rf $ANDROID_HOME/platform-tools/ &amp;amp;&amp;amp; \ cd $ANDROID_HOME &amp;amp;&amp;amp; \ curl -sS https://dl.google.com/android/repository/d027ce0f9f214a4bd575a73786b44d8ccf7e7516.platform-tools_r31.0.1-darwin.zip &amp;gt; platform-tools.zip &amp;amp;&amp;amp; \ unzip platform-tools.zip &amp;amp;&amp;amp; \ rm platform-tools.zip displayName: Download platform-tools Azure Pipelines Library에 업로드한 google-services.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="generator" content="Hugo 0.106.0">
+  <link rel="canonical" href="https://jjjlyn.netlify.app/posts/overall-architecture/" />
+
+  
+    
+    <meta name="description" content="들어가기에 앞서 본 문서에서 출처를 명시하지 않은 첨부 이미지는 작성자가 직접 제작한 작업물입니다. 2차 가공, 공유 등을 하여도 문제되지 않으나 내용에 오류가 있을 수 있으므로 권장하지 않습니다. 잘못된 내용으로 발생하는 피해에 대해서는 책임을 지지 않습니다.
+본래 안드로이드 개발자로 합류하였으나 팀 내부 사정으로 인하여 서비스 배포까지 하게 된 경험을 공유합니다. 초기 스타트업으로 신규 서비스 개발부터 배포까지의 전 과정을 아울러야 했습니다. 클라우드 서비스 &#43; 데브옵스 &#43; 도커를 이용하여 개발 환경을 구축하였습니다.
+서버 구성 운영 환경 원래 운영 환경은 Azure, 개발은 AWS로 구축되었으나 Azure 구독료가 부담스러운 관계로 2022년 9월 13일 기준 운영까지 AWS로 주요 리소스를 이전하였습니다.">
+  
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://jjjlyn.netlify.app/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://jjjlyn.netlify.app/favicon-32x32.png"> 
+  <link rel="icon" type="image/png" sizes="16x16" href="https://jjjlyn.netlify.app/favicon-16x16.png"> 
+  <link rel="manifest" href="https://jjjlyn.netlify.app/site.webmanifest"> 
+  <link rel="mask-icon" href="https://jjjlyn.netlify.app/safari-pinned-tab.svg" color="#000000"> 
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    body {
+      visibility: hidden;
+      opacity: 0;
+    }
+  </style>
+
+  <style id="darkTheme">
+    .intro-and-nav,
+    .main-and-footer {
+      filter: invert(100%);
+    }
+
+    * {
+      background-color: inherit
+    }
+
+    img:not([src*=".svg"]),
+    .colors,
+    iframe,
+    .demo-container {
+      filter: invert(100%);
+    }
+  </style>
+
+  <link rel="stylesheet" href="/css/prism.css" media="none" onload="this.media='all';">
+
+  
+  
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+
+  
+
+  
+  
+  <title>스타트업 앱 서비스 배포 경험기 | JEONG LYNN의 안드로이드</title>
+</head>
+
+  <body>
+    <a href="#main">skip to content</a>
+    <noscript>
+  <style>
+    body {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</noscript>
+
+    <svg style="display: none">
+  <symbol id="bookmark" viewBox="0 0 40 50">
+   <g transform="translate(2266 3206.2)">
+    <path style="stroke:currentColor;stroke-width:3.2637;fill:none" d="m-2262.2-3203.4-.2331 42.195 16.319-16.318 16.318 16.318.2331-42.428z"/>
+   </g>
+  </symbol>
+
+  <symbol id="w3c" viewBox="0 0 127.09899 67.763">
+   <text font-size="83" style="font-size:83px;font-family:Trebuchet;letter-spacing:-12;fill-opacity:0" letter-spacing="-12" y="67.609352" x="-26.782778">W3C</text>
+   <text font-size="83" style="font-size:83px;font-weight:bold;font-family:Trebuchet;fill-opacity:0" y="67.609352" x="153.21722" font-weight="bold">SVG</text>
+   <path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m33.695.377 12.062 41.016 12.067-41.016h8.731l-19.968 67.386h-.831l-12.48-41.759-12.479 41.759h-.832l-19.965-67.386h8.736l12.061 41.016 8.154-27.618-3.993-13.397h8.737z"/>
+   <path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m91.355 46.132c0 6.104-1.624 11.234-4.862 15.394-3.248 4.158-7.45 6.237-12.607 6.237-3.882 0-7.263-1.238-10.148-3.702-2.885-2.47-5.02-5.812-6.406-10.022l6.82-2.829c1.001 2.552 2.317 4.562 3.953 6.028 1.636 1.469 3.56 2.207 5.781 2.207 2.329 0 4.3-1.306 5.909-3.911 1.609-2.606 2.411-5.738 2.411-9.401 0-4.049-.861-7.179-2.582-9.399-1.995-2.604-5.129-3.912-9.397-3.912h-3.327v-3.991l11.646-20.133h-14.062l-3.911 6.655h-2.493v-14.976h32.441v4.075l-12.31 21.217c4.324 1.385 7.596 3.911 9.815 7.571 2.22 3.659 3.329 7.953 3.329 12.892z"/>
+   <path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.21 0 1.414 8.6-5.008 9.583s-1.924-4.064-5.117-6.314c-2.693-1.899-4.447-2.309-7.186-1.746-3.527.73-7.516 4.938-9.258 10.13-2.084 6.21-2.104 9.218-2.178 11.978-.115 4.428.58 7.043.58 7.043s-3.04-5.626-3.011-13.866c.018-5.882.947-11.218 3.666-16.479 2.404-4.627 5.954-7.404 9.114-7.728 3.264-.343 5.848 1.229 7.841 2.938 2.089 1.788 4.213 5.698 4.213 5.698l4.94-9.837z"/>
+   <path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.82 48.674s-2.208 3.957-3.589 5.48c-1.379 1.524-3.849 4.209-6.896 5.555-3.049 1.343-4.646 1.598-7.661 1.306-3.01-.29-5.807-2.032-6.786-2.764-.979-.722-3.486-2.864-4.897-4.854-1.42-2-3.634-5.995-3.634-5.995s1.233 4.001 2.007 5.699c.442.977 1.81 3.965 3.749 6.572 1.805 2.425 5.315 6.604 10.652 7.545 5.336.945 9.002-1.449 9.907-2.031.907-.578 2.819-2.178 4.032-3.475 1.264-1.351 2.459-3.079 3.116-4.108.487-.758 1.276-2.286 1.276-2.286l-1.276-6.644z"/>
+  </symbol>
+
+  <symbol id="tag" viewBox="0 0 177.16535 177.16535">
+    <g transform="translate(0 -875.2)">
+     <path style="fill-rule:evenodd;stroke-width:0;fill:currentColor" d="m159.9 894.3-68.79 8.5872-75.42 77.336 61.931 60.397 75.429-76.565 6.8495-69.755zm-31.412 31.835a10.813 10.813 0 0 1 1.8443 2.247 10.813 10.813 0 0 1 -3.5174 14.872l-.0445.0275a10.813 10.813 0 0 1 -14.86 -3.5714 10.813 10.813 0 0 1 3.5563 -14.863 10.813 10.813 0 0 1 13.022 1.2884z"/>
+    </g>
+  </symbol>
+
+  <symbol id="balloon" viewBox="0 0 141.73228 177.16535">
+   <g transform="translate(0 -875.2)">
+    <g>
+     <path style="fill:currentColor" d="m68.156 882.83-.88753 1.4269c-4.9564 7.9666-6.3764 17.321-5.6731 37.378.36584 10.437 1.1246 23.51 1.6874 29.062.38895 3.8372 3.8278 32.454 4.6105 38.459 4.6694-.24176 9.2946.2879 14.377 1.481 1.2359-3.2937 5.2496-13.088 8.886-21.623 6.249-14.668 8.4128-21.264 10.253-31.252 1.2464-6.7626 1.6341-12.156 1.4204-19.764-.36325-12.93-2.1234-19.487-6.9377-25.843-2.0833-2.7507-6.9865-7.6112-7.9127-7.8436-.79716-.20019-6.6946-1.0922-6.7755-1.0248-.02213.0182-5.0006-.41858-7.5248-.22808l-2.149-.22808h-3.3738z"/>
+     <path style="fill:currentColor" d="m61.915 883.28-3.2484.4497c-1.7863.24724-3.5182.53481-3.8494.63994-2.4751.33811-4.7267.86957-6.7777 1.5696-.28598 0-1.0254.20146-2.3695.58589-5.0418 1.4418-6.6374 2.2604-8.2567 4.2364-6.281 7.6657-11.457 18.43-12.932 26.891-1.4667 8.4111.71353 22.583 5.0764 32.996 3.8064 9.0852 13.569 25.149 22.801 37.517 1.3741 1.841 2.1708 2.9286 2.4712 3.5792 3.5437-1.1699 6.8496-1.9336 10.082-2.3263-1.3569-5.7831-4.6968-21.86-6.8361-33.002-.92884-4.8368-2.4692-14.322-3.2452-19.991-.68557-5.0083-.77707-6.9534-.74159-15.791.04316-10.803.41822-16.162 1.5026-21.503 1.4593-5.9026 3.3494-11.077 6.3247-15.852z"/>
+     <path style="fill:currentColor" d="m94.499 885.78c-.10214-.0109-.13691 0-.0907.0409.16033.13489 1.329 1.0675 2.5976 2.0723 6.7003 5.307 11.273 14.568 12.658 25.638.52519 4.1949.24765 14.361-.5059 18.523-2.4775 13.684-9.7807 32.345-20.944 53.519l-3.0559 5.7971c2.8082.76579 5.7915 1.727 8.9926 2.8441 11.562-11.691 18.349-19.678 24.129-28.394 7.8992-11.913 11.132-20.234 12.24-31.518.98442-10.02-1.5579-20.876-6.7799-28.959-.2758-.4269-.57803-.86856-.89617-1.3166-3.247-6.13-9.752-12.053-21.264-16.131-2.3687-.86369-6.3657-2.0433-7.0802-2.1166z"/>
+     <path style="fill:currentColor" d="m32.52 892.22c-.20090-.13016-1.4606.81389-3.9132 2.7457-11.486 9.0476-17.632 24.186-16.078 39.61.79699 7.9138 2.4066 13.505 5.9184 20.562 5.8577 11.77 14.749 23.219 30.087 38.74.05838.059.12188.1244.18052.1838 1.3166-.5556 2.5965-1.0618 3.8429-1.5199-.66408-.32448-1.4608-1.3297-3.8116-4.4602-5.0951-6.785-8.7512-11.962-13.051-18.486-5.1379-7.7948-5.0097-7.5894-8.0586-13.054-6.2097-11.13-8.2674-17.725-8.6014-27.563-.21552-6.3494.13041-9.2733 1.775-14.987 2.1832-7.5849 3.9273-10.986 9.2693-18.07 1.7839-2.3656 2.6418-3.57 2.4409-3.7003z"/>
+     <path style="fill:currentColor" d="m69.133 992.37c-6.2405.0309-12.635.76718-19.554 2.5706 4.6956 4.7759 9.935 10.258 12.05 12.625l4.1272 4.6202h11.493l3.964-4.4516c2.0962-2.3541 7.4804-7.9845 12.201-12.768-8.378-1.4975-16.207-2.6353-24.281-2.5955z"/>
+     <rect style="stroke-width:0;fill:currentColor" ry="2.0328" height="27.746" width="22.766" y="1017.7" x="60.201"/>
+    </g>
+   </g>
+  </symbol>
+
+  <symbol id="info" viewBox="0 0 41.667 41.667">
+   <g transform="translate(-37.035 -1004.6)">
+    <path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m76.25 1030.2a18.968 18.968 0 0 1 -23.037 13.709 18.968 18.968 0 0 1 -13.738 -23.019 18.968 18.968 0 0 1 23.001 -13.768 18.968 18.968 0 0 1 13.798 22.984"/>
+    <g transform="matrix(1.1146 0 0 1.1146 -26.276 -124.92)">
+     <path style="stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m75.491 1039.5v-8.7472"/>
+     <path style="stroke-width:0;fill:currentColor" transform="scale(-1)" d="m-73.193-1024.5a2.3719 2.3719 0 0 1 -2.8807 1.7142 2.3719 2.3719 0 0 1 -1.718 -2.8785 2.3719 2.3719 0 0 1 2.8763 -1.7217 2.3719 2.3719 0 0 1 1.7254 2.8741"/>
+    </g>
+   </g>
+  </symbol>
+
+  <symbol id="warning" viewBox="0 0 48.430474 41.646302">
+    <g transform="translate(-1.1273 -1010.2)">
+     <path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:4.151;fill:none" d="m25.343 1012.3-22.14 37.496h44.28z"/>
+     <path style="stroke:currentColor;stroke-linecap:round;stroke-width:4.1512;fill:none" d="m25.54 1027.7v8.7472"/>
+     <path style="stroke-width:0;fill:currentColor" d="m27.839 1042.8a2.3719 2.3719 0 0 1 -2.8807 1.7143 2.3719 2.3719 0 0 1 -1.718 -2.8785 2.3719 2.3719 0 0 1 2.8763 -1.7217 2.3719 2.3719 0 0 1 1.7254 2.8741"/>
+    </g>
+  </symbol>
+
+  <symbol id="menu" viewBox="0 0 50 50">
+     <rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="0" x="0"/>
+     <rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="20" x="0"/>
+     <rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="40" x="0"/>
+   </symbol>
+
+   <symbol id="link" viewBox="0 0 50 50">
+    <g transform="translate(0 -1002.4)">
+     <g transform="matrix(.095670 0 0 .095670 2.3233 1004.9)">
+      <g>
+       <path style="stroke-width:0;fill:currentColor" d="m452.84 192.9-128.65 128.65c-35.535 35.54-93.108 35.54-128.65 0l-42.881-42.886 42.881-42.876 42.884 42.876c11.845 11.822 31.064 11.846 42.886 0l128.64-128.64c11.816-11.831 11.816-31.066 0-42.9l-42.881-42.881c-11.822-11.814-31.064-11.814-42.887 0l-45.928 45.936c-21.292-12.531-45.491-17.905-69.449-16.291l72.501-72.526c35.535-35.521 93.136-35.521 128.64 0l42.886 42.881c35.535 35.523 35.535 93.141-.001 128.66zm-254.28 168.51-45.903 45.9c-11.845 11.846-31.064 11.817-42.881 0l-42.884-42.881c-11.845-11.821-11.845-31.041 0-42.886l128.65-128.65c11.819-11.814 31.069-11.814 42.884 0l42.886 42.886 42.876-42.886-42.876-42.881c-35.54-35.521-93.113-35.521-128.65 0l-128.65 128.64c-35.538 35.545-35.538 93.146 0 128.65l42.883 42.882c35.51 35.54 93.11 35.54 128.65 0l72.496-72.499c-23.956 1.597-48.092-3.784-69.474-16.283z"/>
+      </g>
+     </g>
+    </g>
+  </symbol>
+
+  <symbol id="doc" viewBox="0 0 35 45">
+   <g transform="translate(-147.53 -539.83)">
+    <path style="stroke:currentColor;stroke-width:2.4501;fill:none" d="m149.38 542.67v39.194h31.354v-39.194z"/>
+    <g style="stroke-width:25" transform="matrix(.098003 0 0 .098003 133.69 525.96)">
+     <path d="m220 252.36h200" style="stroke:currentColor;stroke-width:25;fill:none"/>
+     <path style="stroke:currentColor;stroke-width:25;fill:none" d="m220 409.95h200"/>
+     <path d="m220 488.74h200" style="stroke:currentColor;stroke-width:25;fill:none"/>
+     <path d="m220 331.15h200" style="stroke:currentColor;stroke-width:25;fill:none"/>
+    </g>
+   </g>
+ </symbol>
+
+ <symbol id="tick" viewBox="0 0 177.16535 177.16535">
+  <g transform="translate(0 -875.2)">
+   <rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="155" width="40" y="702.99" x="556.82"/>
+   <rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="40" width="90.404" y="817.99" x="506.42"/>
+  </g>
+ </symbol>
+</svg>
+
+    <div class="wrapper">
+      <header class="intro-and-nav" role="banner">
+  <div>
+    <div class="intro">
+      <a
+        class="logo"
+        href="https://jjjlyn.netlify.app/"
+        aria-label="JEONG LYNN의 안드로이드 home page"
+      >
+        
+          <img 
+            src="/images/logo.svg" 
+            alt="Logo"
+          >
+        
+      </a>
+      <p class="library-desc">
+        
+      </p>
+    </div>
+    <nav id="patterns-nav" class="patterns" role="navigation">
+  <h2 class="vh">Main navigation</h2>
+  <button id="menu-button" aria-expanded="false">
+    <svg viewBox="0 0 50 50" aria-hidden="true" focusable="false">
+      <use href="#menu"></use>
+    </svg>
+    Menu
+  </button>
+  
+  <ul id="patterns-list">
+  
+  </ul>
+</nav>
+    
+  </div>
+</header>
+
+      <div class="main-and-footer">
+        <div>
+          
+  <main id="main">
+    <h1>스타트업 앱 서비스 배포 경험기</h1>
+    <h2 id="들어가기에-앞서">들어가기에 앞서</h2>
+<p><strong>본 문서에서 출처를 명시하지 않은 첨부 이미지는 작성자가 직접 제작한 작업물입니다.<!-- raw HTML omitted -->
+2차 가공, 공유 등을 하여도 문제되지 않으나 내용에 오류가 있을 수 있으므로 권장하지 않습니다.<!-- raw HTML omitted -->
+잘못된 내용으로 발생하는 피해에 대해서는 책임을 지지 않습니다.</strong></p>
+<blockquote>
+<p>본래 안드로이드 개발자로 합류하였으나 팀 내부 사정으로 인하여 서비스 배포까지 하게 된 경험을 공유합니다.<!-- raw HTML omitted -->
+초기 스타트업으로 신규 서비스 개발부터 배포까지의 전 과정을 아울러야 했습니다.<!-- raw HTML omitted -->
+클라우드 서비스 + 데브옵스 + 도커를 이용하여 개발 환경을 구축하였습니다.</p>
+</blockquote>
+<h2 id="서버-구성">서버 구성</h2>
+<h3 id="운영-환경">운영 환경</h3>
+<p>원래 운영 환경은 Azure, 개발은 AWS로 구축되었으나 Azure 구독료가 부담스러운 관계로 2022년 9월 13일 기준 운영까지 AWS로 주요 리소스를 이전하였습니다.</p>
+<ul>
+<li>
+<p>Azure에서 사용하는 리소스(현재)</p>
+<ul>
+<li>스토리지 계정(Blob Service)</li>
+<li><del>정적 웹앱</del></li>
+<li>SaaS(SendGrid 메일링 서비스)</li>
+<li>DNS Zone</li>
+<li>키 자격 증명 모음(키, 비밀)</li>
+</ul>
+</li>
+<li>
+<p>AWS에서 사용하는 리소스(현재)</p>
+<ul>
+<li>EC2</li>
+<li>RDS</li>
+<li>Router53</li>
+</ul>
+</li>
+</ul>
+<p>개발 환경만 구축된 AWS는 아래와 같은 구조로 VPC 내에 서브넷 한개로 구성되어 있습니다. 기존 서브넷으로는 내부 IP를 250개 정도 사용가능하여 개발용으로는 충분하나 운영에서는 부족할 수 있어 서브넷을 추가로 생성하였습니다. (둘 다 퍼블릭 서브넷 입니다.)</p>
+<p><img src="/images/infra/dev-env.png" alt="개발 아키텍쳐">
+개발, 운영환경을 구분한 모습입니다.</p>
+<p><img src="/images/infra/dev-rel-env.png" alt="운영 아키텍쳐"></p>
+<p>다음은 운영 환경 구조도 입니다.
+<img src="/images/infra/real-infra-architecture.png" alt="운영 구조도"></p>
+<p>전체 흐름은 하단의 조건을 성립해야 했습니다.</p>
+<ul>
+<li>EC2, RDS 보안그룹 지정</li>
+<li>서비스 사용자는 <code>www.jjjlyn.io/***/***</code> 등의 URL로 자원을 요청할 수 있습니다. (편의상 도메인 이름은 제 닉네임인 <code>jjjlyn</code>, 서브 도메인은 <code>www</code>로 하겠습니다.)</li>
+<li>TLS가 적용되어야 합니다.</li>
+<li>공용 IP주소에 도메인이 적용되어야 합니다. (예: 123.123.123.123 -&gt; jjjlyn.io)</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>조건을 만족시키기 위해 아래 과정을 수행하였습니다. (AWS 기준)</p>
+<p><strong>보안그룹 지정</strong></p>
+<p>EC2 인바운드 보안그룹에는 접속하려는 IP, PORT에 대해서만 추가하면 됩니다. 예컨데 443(HTTP), 2376(도커 데몬 소켓), 22(SSH), 21(FTP) 등이 있습니다. IP는 모두 허용하도록 설정했습니다(0.0.0.0).<!-- raw HTML omitted -->
+RDS 인바운드 보안그룹 설정에서 주의해야 할 사항이 있습니다. <strong>EC2에서 RDS로의 접속을 허용할 때, 반드시 EC2의 내부 IP(외부 IP X)를 허용 가능한 IP로 지정해야 한다는 점입니다.</strong> AWS VPC 설정 시 VPC 서브넷 전용 라우팅 테이블을 생성합니다. 라우팅 테이블은 VPC 내 서브넷 자원의 아웃바운드 트래픽을 특정 장소(local 혹은 인터넷)로 전달하는 역할을 합니다. 동일 서브넷의 서로 다른 자원 간의 통신은 라우팅 테이블을 거치지 않지만, 같은 VPC 권역에 있더라도 다른 서브넷의 자원을 요청한 경우에는 라우팅 테이블을 거치게 됩니다. VPC의 CIDL 블록 범위에 있는 10.0.0.0/16의 트래픽인 경우 local로, 그 외 모든 IP(0.0.0.0/0)는 인터넷 게이트웨이로 보냅니다. 만약 RDS의 인바운드 보안그룹에 EC2의 외부 IP를 등록하게 되면, 라우팅 테이블의 명시에 따라 인터넷 게이트웨이로 트래픽이 나갑니다. 이 경우 외부에서 RDS로 접근을 시도하는 것인데, RDS 보안그룹에서는 외부 트래픽을 차단하였기 때문에 접속이 되지 않습니다.</p>
+<p><strong>도메인 설정</strong></p>
+<ul>
+<li>도메인 호스팅 사이트에서 도메인 구매(고대디에서 구매)</li>
+<li>Route53에서 발급받은 네임서버 4개 도메인 호스팅 사이트에 적용</li>
+<li>Route53에 도메인 등록 (예: <code>jjjlyn.io</code>)</li>
+<li>Route53에 A레코드로 VM 퍼블릭 IP 주소 등록 (예: <code>cname.jjjlyn.io</code> -&gt; <code>123.123.123.123</code>로 매핑)</li>
+<li>CNAME 추가 (예: <code>admin.jjjlyn.io</code> -&gt; <code>cname.jjjlyn.io</code>로 매핑)
+<img src="/images/infra/route53_structure.png" alt="도메인 매핑 구조"></li>
+</ul>
+<p><strong>TLS 적용</strong></p>
+<p>보안서버 인증서 구매 (Korea SSL에서 구매)</p>
+<p><strong>VM Nginx 설정과 도커 환경 구축</strong></p>
+<ul>
+<li>Nginx 포트 포워딩 (Nginx의 포트포워딩을 사용하면 내부망의 서버 정보를 외부로부터 은닉할 수 있음)</li>
+<li>도커 설정</li>
+</ul>
+<p>Nginx와 도커를 설치한 후, 도커 허브에서 registry 이미지를 <code>pull</code> 받고 컨테이너화 해야 합니다.</p>
+<blockquote>
+<p>docker private registy 사용 이유</p>
+<p>도커는 개발자가 만든 이미지를 공유하는 공식 저장소(docker hub)를 제공하고 있습니다. 그러나 사내 환경에서는 모든 이미지를 전체 도커 사용자에게 공유하지 않고 내부망에서만 관리해야 할 필요가 있습니다. 그럴 때 필요한 원격 저장소가 docker private registry입니다. 컨테이너 포트는 기본값 5000번으로 지정되어 있습니다.</p>
+</blockquote>
+<p>docker private registry도 Nginx에서 관리할 수 있도록 CNAME으로 추가해 주었습니다. (예: <code>docker.jjjlyn.io</code> -&gt; <code>common.jjjlyn.io</code>로 매핑)<!-- raw HTML omitted -->Nginx에서 로컬호스트 5000번(편의상 도커 컨테이너 포트 기본값 5000번과 동일한 5000번으로 지정)으로 이동하도록 포트포워딩 설정도 해줍니다.
+<a href="/posts/how-docker-network-works/">참고 - 도커 외부통신 동작 원리</a></p>
+<p>VM 도커 컨테이너는 CLI에서 <code>docker run</code>로 직접 띄우거나 <code>docker compose</code>를 이용하여 한꺼번에 띄울 수 있지만, 팀에서는 Azure Pipelines를 사용했습니다.<!-- raw HTML omitted -->자세한 내용은 <a href="/posts/server-app-ci-cd/">Azure Pipelines로 CI/CD 자동화하기</a>를 참고해주세요:)</p>
+<p>DNS Zone(AWS 기준 Route53)에서 추가한 서브 도메인에 대해 Nginx 포트 포워딩을 해 줍니다. 위에서 언급한 <code>docker.jjjlyn.io</code>를 예시로 들겠습니다.<!-- raw HTML omitted --></p>
+<p>외부에서 <code>https://docker.jjjlyn.io</code>로 요청<!-- raw HTML omitted -->
+-&gt; 운영서버의 로컬호스트 5000번으로 포워딩<!-- raw HTML omitted -->
+-&gt; 로컬호스트 5000번과 바인딩된 도커 컨테이너로 포워딩<!-- raw HTML omitted -->
+의 과정이 이루어져야 합니다.</p>
+<p>먼저 ssh로 운영 VM에 접근합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ssh -i private-key <span style="color:#f92672">[</span>사용자명<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>VM IP 주소 혹은 도메인<span style="color:#f92672">]</span> -p <span style="color:#ae81ff">22</span>
+</span></span></code></pre></div><p>Nginx 설정 폴더에 진입합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cd /etc/nginx/
+</span></span><span style="display:flex;"><span>$ ls
+</span></span></code></pre></div><p><img src="https://user-images.githubusercontent.com/43571225/170855661-71c823a1-d227-4823-8272-5c9730984fdd.png" alt="nginx-folder-structure"></p>
+<p><code>sites-enabled</code>에 진입하여 파일을 생성합니다.<!-- raw HTML omitted --></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cd sites-enabled/
+</span></span><span style="display:flex;"><span>$ vi docker.jjjlyn.io
+</span></span></code></pre></div><pre tabindex="0"><code class="language-vi" data-lang="vi"># 80번(http)로 접근할 시 https로 리다이렉트
+server {
+       listen 80;
+
+       server_name docker.jjjlyn.io;
+       location / {
+                return 301 https://docker.jjjlyn.io$request_uri;
+       }
+}
+server {
+        listen 443;
+        server_name docker.jjjlyn.io;
+
+        ssl on;
+
+        # TLS 인증서 적용
+        ssl_certificate /etc/nginx/ca.crt;
+        ssl_certificate_key /etc/nginx/ca.key;
+        ssl_session_timeout 3m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+        ssl_prefer_server_ciphers   on;
+
+        client_max_body_size 0;
+        chunked_transfer_encoding on;
+        location / {
+                rewrite ^(/.*)$ $1 break;
+                proxy_pass_header Server;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                # docker.jjjlyn.io으로 들어온 요청은 로컬호스트 5000번으로 포트 포워딩
+                proxy_pass http://127.0.0.1:5000/;
+                proxy_redirect off;
+        }
+}
+</code></pre><p><code>nginx.conf</code>에서 <code>docker.jjjlyn.io</code> 포트 포워딩 설정이 반영되도록 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cd ..
+</span></span><span style="display:flex;"><span>$ vi nginx.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>http <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 기본 설정 생략</span>
+</span></span><span style="display:flex;"><span>        include /etc/nginx/sites-enabled/*;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>이제 도커 허브에서 받아온 registry 이미지를 컨테이너화 해야 합니다. 외부에서 호스트 포트 5000번으로 요청이 들어올 경우 레지스트리 도커 컨테이너의 5000번 포트로 이를 전달해야 하기 때문에 <code>docker run</code> 실행 시 <code>-p 5000:5000</code> 매개변수를 넣어 주어야 합니다. 추가로 Basic Authentication(보안 목적)을 위해 <code>htpasswd</code>도 적용합니다.</p>
+<p>이렇게 Basic Authentication과 TLS를 모두 적용하고 나면, Azure Pipelines(외부)에서 <code>https://docker.jjjlyn.io</code> URL로 요청할 때만 Nginx를 통해 로컬호스트 5000번으로 포트 포워딩 되기 때문에 docker private registry를 노출시킬 위험을 줄일 수 있습니다.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="개발-환경">개발 환경</h3>
+<p>서비스 첫 배포에 앞서 개발과 운영 환경을 분리해야 했습니다.
+Azure 가상머신과 비교하여 한화로 약 10만원 정도의 차이가 있고, 마침 지급받은 AWS 크레딧이 있어 AWS를 채택하였습니다.</p>
+<p>팀 내부에서만 사용하기에 트래픽이 거의 발생할 일이 없어</p>
+<ul>
+<li>vCPU 4개, RAM 16GiB, SSD 64GiB의 일반적인 성능을 갖춘 가상머신을 선택했습니다.</li>
+<li>RDS는 프리티어 조건으로 하였습니다.</li>
+</ul>
+<p>운영에 비해 구조를 간소화 하였습니다. 이를테면 웹서버를 통한 포트포워딩은 과감히 생략했습니다. 대신 AWS 보안그룹 인바운드 설정에서 API Gateway(Spring Cloud Gateway를 사용하였음)의 포트(예: 8000번)만을 허용하여 이를 통해 다른 컨테이너의 포트로 접근할 수 있도록 했습니다.
+<!-- raw HTML omitted --></p>
+<p>다음은 개발 환경 구조도 입니다.
+<img src="/images/infra/dev-infra-architecture.png" alt="개발 구조도"></p>
+<!-- raw HTML omitted -->
+<p>Azure Pipelines 빌드 환경에서 docker private registry에 접근하는 것은 외부에서 내부망으로 접속하는 것과 같습니다. 도커 환경에서는 보안상의 이유로 클라이언트와 원격지의 registry간 통신에서 https 프로토콜만을 허용합니다. 개발용으로 사설 TLS 인증서를 구매할 필요는 없어 자체 서명 인증서(Self-Signed Root CA)를 생성했습니다.</p>
+<p>자체 서명 인증서를 발급받고 registry 컨테이너에 적용하는 방법 입니다. 키 이름은 편의상 <code>temp</code>로 지정하였습니다. 폴더명과 경로는 <code>~/certs</code>로 하는 것을 추천합니다. 여기서는 편의상 <code>test-ssl</code>라는 임시 폴더를 생성하였습니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir ./test-ssl
+</span></span><span style="display:flex;"><span>cd certs/
+</span></span><span style="display:flex;"><span>openssl genrsa -des3 -out temp.key <span style="color:#ae81ff">2048</span>
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -new -key temp.key -out temp.csr
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl rsa -in temp.key -out temp.key
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p>한 가지 주의할 점은 아래 단계에서 {DOCKER_HOST_IP}에 registry 컨테이너가 존재하는 원격지의 외부 IP 주소를 지정해야 한다는 것입니다. 차후 클라이언트에서 원격지 registry에 REST API 요청을 할 때, 여기서 지정한 IP 주소로 호출을 시도합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo subjectAltName<span style="color:#f92672">=</span>IP:<span style="color:#f92672">{</span>도커 레지스트리 서버 IP<span style="color:#f92672">}</span> &gt; extfile.cnf
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl x509 -req -days <span style="color:#ae81ff">800</span> -signkey temp.key -in temp.csr -out temp.crt -extfile extfile.cnf
+</span></span></code></pre></div><!-- raw HTML omitted -->
+<p><strong>클라이언트와 호스트가 https 통신을 하려면 호스트(원격지) 서버에서 자체 서명한 인증서를 클라이언트 환경의 <code>신뢰할 수 있는 인증서 목록</code>에 추가해야 합니다.</strong> 이후에는 외부에서 내부망의 registry에 자유롭게 REST API로 요청할 수 있습니다.</p>
+<p>외부에서 REST API를 사용하여 원격지 registry에 저장된 이미지 목록을 불러오게 하는 예시입니다.<!-- raw HTML omitted --></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X https://<span style="color:#f92672">{</span>DOCKER_HOST_IP<span style="color:#f92672">}</span>:5000/v2/_catalog
+</span></span></code></pre></div><p><code>docker ps</code>나 <code>docker pull</code> 등의 도커 관련 명령어를 사용하는 것도 내부적으로는 REST API로 도커 데몬을 통해 도커 호스트로 요청하는 것과 같습니다.</p>
+<p>그런데 registry에 대한 권한이 있는 사용자만 접근할 수 있어야 하겠죠. 이를 위해 basic auth로 추가 보안을 해주어야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install apache2-utils
+</span></span><span style="display:flex;"><span>htpasswd -Bbn <span style="color:#f92672">{</span>레지스트리 ID<span style="color:#f92672">}</span> <span style="color:#f92672">{</span>비밀번호<span style="color:#f92672">}</span> &gt; /home/<span style="color:#f92672">{</span>사용자 디렉토리<span style="color:#f92672">}</span>/certs/htpasswd
+</span></span></code></pre></div><p>레지스트리 이미지를 컨테이너로 띄웁니다. TLS와 basic auth를 모두 지정해야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --name registry -d --restart<span style="color:#f92672">=</span>always -p 5000:5000 <span style="color:#ae81ff">\ </span> 
+</span></span><span style="display:flex;"><span>-v /home/ubuntu/certs:/certs <span style="color:#ae81ff">\ </span> 
+</span></span><span style="display:flex;"><span>-v /data/registry:/var/lib/registry/Docker/registry/v2 <span style="color:#ae81ff">\ </span> 
+</span></span><span style="display:flex;"><span>-e REGISTRY_HTTP_TLS_CERTIFICATE<span style="color:#f92672">=</span>/certs/temp.crt <span style="color:#ae81ff">\ </span> 
+</span></span><span style="display:flex;"><span>-e REGISTRY_HTTP_TLS_KEY<span style="color:#f92672">=</span>/certs/temp.key <span style="color:#ae81ff">\ </span>   
+</span></span><span style="display:flex;"><span>-e REGISTRY_AUTH<span style="color:#f92672">=</span>htpasswd <span style="color:#ae81ff">\ </span>    
+</span></span><span style="display:flex;"><span>-e <span style="color:#e6db74">&#34;REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm&#34;</span> <span style="color:#ae81ff">\ </span>    
+</span></span><span style="display:flex;"><span>-e REGISTRY_AUTH_HTPASSWD_PATH<span style="color:#f92672">=</span>/certs/htpasswd <span style="color:#ae81ff">\ </span>    
+</span></span><span style="display:flex;"><span>registry:2.7.0  
+</span></span></code></pre></div><p>이제 외부에서 원격지 registry의 아이디, 패스워드를 헤더에 담아 요청하지 않으면 <code>authentication required</code> 오류 메시지가 뜨면서, 권한이 없는 사용자는 접근하지 못하게 됩니다.
+<img src="https://user-images.githubusercontent.com/43571225/171328664-6c9411eb-a25d-4ef0-995c-c384c5ce92e7.png" alt="basic-auth-failure"></p>
+<p>아래와 같이 레지스트리 ID와 비밀번호를 헤더에 담아 요청해야 합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --user <span style="color:#f92672">{</span>레지스트리 ID<span style="color:#f92672">}</span>:<span style="color:#f92672">{</span>비밀번호<span style="color:#f92672">}</span> -X GET https://<span style="color:#f92672">{</span>외부 IP<span style="color:#f92672">}</span>:5000/v2/_catalog
+</span></span></code></pre></div><p>레지스트리 이미지 목록을 성공적으로 가져온 예시입니다.
+<img src="https://user-images.githubusercontent.com/43571225/171328728-eafba112-1033-4b99-8527-16fc7a1cbe64.png" alt="basic-auth-success"></p>
+<p>위에서도 언급하였지만, 클라이언트와 호스트가 https 통신을 하려면 자체 서명 인증서를 클라이언트 환경의 <code>신뢰할 수 있는 인증서 목록</code>에 추가해야 합니다. 로컬에서 원격지의 registry에 접근하는 경우에는 로컬(클라이언트) 환경에 한번 적용한 후 계속 목록에 유지될 것입니다. 그러나 Azure Pipelines와 같이 매번 새로운 빌드 환경을 제공하는 경우에는 어떻게 해야 할까요?</p>
+<p>저는 자체 인증서 추가 로직을 CI/CD 파이프라인에 삽입했습니다. 자세한 내용은 <a href="/posts/server-app-ci-cd/">Azure Pipelines로 CI/CD 자동화하기</a>에서 확인하실 수 있습니다.</p>
+<h2 id="운영-중-이슈">운영 중 이슈</h2>
+<p>지속적인 앱 업데이트 과정에서 쌓이는 도커 이미지는 어떻게 지워야 할까요? private registry가 꽉 차 가상머신 서버가 멈출 경우 대처 방법을 공유합니다.
+<a href="https://github.com/andrey-pohilko/registry-cli">docker image GC 스크립트</a></p>
+<ol>
+<li>Docker를 이용해 이미지를 삭제하는 방법<!-- raw HTML omitted -->
+registry-cli 이미지를 내려받습니다.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker pull anoxis/registry-cli
+</span></span></code></pre></div><p>Private Registry에 지정한 이름이 <code>personal-registry</code>로 확인됩니다.
+<img src="/images/infra/docker-ps-private-registry.png" alt="docker ps personal registry">
+<img src="/images/infra/docker-inspect-private-registry.png" alt="docker inspect personal registry"></p>
+<p><code>personal-registry</code>로 registry-cli를 작동시킵니다.
+참고로 <code>--rm</code>은 컨테이너가 종료되면 자동으로 삭제하라는 옵션입니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run --rm --link personal-registry anoxis/registry-cli -r http://personal-registry:5000
+</span></span></code></pre></div><p><img src="/images/infra/docker-registry-gc.png" alt="Delete Legacy Images"></p>
+<ol start="2">
+<li>파이썬 파일을 이용해 이미지를 삭제하는 방법<!-- raw HTML omitted -->
+가상머신에 <code>registry.py</code>와 <code>requirements-build.txt</code>를 다운받아 파이썬 파일을 실행하는 방법도 있습니다. vi 편집기로 문서 파일을 생성하여 복사-붙여넣기해도 됩니다.
+<img src="/images/infra/registry-cli.png" alt="Registry CLI"></li>
+</ol>
+<p>registy.py를 실행할 수 있도록 권한을 부여합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod <span style="color:#ae81ff">755</span> registry.py
+</span></span></code></pre></div><p>의존성을 추가합니다.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pip install -r requirements-build.txt
+</span></span></code></pre></div><p>오래된 이미지를 삭제합니다. (5개 이미지 삭제 옵션을 준 예시입니다.)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./registry.py -l user:pass -r http://localhost:5000 --delete --num <span style="color:#ae81ff">5</span>
+</span></span></code></pre></div>
+  </main>
+
+          
+            <footer role="contentinfo">
+  <div
+  
+  >
+    <label for="themer">
+      dark theme: <input type="checkbox" id="themer" class="vh">
+      
+      <span aria-hidden="true"></span>
+    </label>
+  </div>
+  
+</footer>
+
+          
+        </div>
+      </div>
+    </div>
+    
+
+<script src="/js/dom-scripts.js"></script>  
+
+<script src="/js/prism.js"></script>
+
+
+
+
+
+    
+    
+  
+
+  </body>
+</html>
