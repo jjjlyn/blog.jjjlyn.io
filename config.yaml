@@ -20,15 +20,15 @@ params:
   footer: Made with [Hugo](https://gohugo.io/). Themed by [Cupper](https://github.com/zwbetz-gh/cupper-hugo-theme). Deployed to [Netlify](https://www.netlify.com/).
   # For more date formats see https://gohugo.io/functions/format/
   dateFormat: Jan 2, 2006
-#   codePenUser: someUser
+  codePenUser: someUser
   katex: true
   hideHeaderLinks: false
   search: true
   showThemeSwitcher: true
   defaultDarkTheme: false
   moveFooterToHeader: false
-  # navTitleText: Cupper Theme
-#   logoAlt: An alternative text description of the logo
+  navTitleText: Android Tech Archive
+  logoAlt: An alternative text description of the logo
   customCss:
     - css/custom_01.css
     - css/custom_02.css
