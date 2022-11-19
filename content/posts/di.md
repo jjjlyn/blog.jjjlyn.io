@@ -1,14 +1,14 @@
 ---
-title: "DI (Dependency Injection)"
+title: "DI(Dependency Injection)란"
 date: 2022-11-18T13:39:56+09:00
 draft: true
-categories:
-- Android
 tags:
 - Android
 ---
 
 # DI (Dependency Injection)
+
+DI란 특정 클래스(객체) 안에서 필요한 객체를 생성·사용하는 대신, 외부에서 생성하여 이를 필요로 하는 클래스에 주입하여 사용하는 일종의 테크닉입니다. 객체지향의 SOLID 원칙 중 하나인 제어의 역전(DIP)을 구현한 방법 중 하나입니다. 구현체(Implementation)보다 추상체(Abstraction)에 의존하여 프로그래밍하는 것을 권장합니다.
 
 ## Dependency란?
 
@@ -23,7 +23,7 @@ A가 B에 의존한다는 것은 B가 변경되면 이에 따라 A도 변경될 
 
 ## 의존성 주입 (DI)
 
-객체 간 의존성을 줄이기 위해서는 객체의 호출과 생성을 분리하는 것이 좋습니다. 보통 이를 관심사 분리(Separation of Concerns) 혹은 단일 책임 원칙(Single Responsibility Principle)이라고 합니다. DI란 특정 컴포넌트가 객체를 생성하여 이를 필요로 하는 다른 객체에 주입하는 일련의 과정을 의미합니다. 예를 들어 안드로이드의 MainActivity에서 객체A를 생성한 후, 이를 객체B의 생성자에 전달한다고 가정해 봅시다. 이 경우 Activity 컴포넌트가 객체B에 대한 객체A의 의존성 주입을 담당하고 있는 것입니다. 보통의 경우 컴포넌트가 필요한 의존성을 직접 생성하여 주입하지 않고 DI 라이브러리가 이 작업을 대신하게 됩니다.
+객체 간 의존성을 줄이기 위해서는 객체의 호출과 생성을 분리하는 것이 좋습니다. 객체지향의 SOLID 원칙 중 단일 책임 원칙(Single Responsibility Principle)에서 권장하는 사항입니다. 앞서 언급한 바와 같이 DI란 특정 컴포넌트가 객체를 생성하여, 이를 필요로 하는 다른 객체에 주입하는 일련의 과정을 의미합니다. 예를 들어 안드로이드의 MainActivity에서 객체A를 생성한 후, 이를 객체B의 생성자에 전달한다고 가정해 봅시다. 이 경우 Activity 컴포넌트가 **객체B에 대한 객체A의 의존성 주입**을 담당하고 있는 것입니다. 보통의 경우 컴포넌트가 필요한 의존성을 직접 생성하여 주입하기보다는 DI 라이브러리가 이 역할을 대신하게 됩니다.
 
 의존성 주입의 종류에는 크게 세 가지가 있습니다.
 
@@ -49,13 +49,13 @@ Injector: 찾은(looked-up) 의존성 객체를 이를 필요로 하는 Field Pr
 
 Dagger2가 안드로이드 전용이 아닌 자바 범용 라이브러리이다 보니, 안드로이드 개발 시 추가적으로 보일러플레이트 코드를 적용해야 하는 번거로움이 있긴 합니다. 이를 개선하기 위해 안드로이드 어플리케이션에 맞게 설계된 Hilt가 출시되었습니다.
 
-Hilt는 Dagger2 라이브러리를 감싸는 Wapper입니다. Dagger2에서 사용하는 **@Component**, **@Subcomponent** 어노테이션을 제거하고 새로운 어노테이션을 사용합니다.
+Hilt는 Dagger2 라이브러리를 감싸는 Wapper입니다. Dagger2에서 사용하는 `@Component`, `@Subcomponent` 어노테이션을 제거하고 새로운 어노테이션을 사용합니다.
 
-- Application 클래스에는 **@HiltAndroidApp**을 사용합니다.
-- Activity, Fragment, Service, Bradcast Receiver, View 등에는 **@AndroidEntryPoint**를 사용합니다.
-- ViewModel에는 **@HiltViewModel**을 사용합니다.
+- Application 클래스에는 `@HiltAndroidApp`을 사용합니다.
+- Activity, Fragment, Service, Bradcast Receiver, View 등에는 `@AndroidEntryPoint`를 사용합니다.
+- ViewModel에는 `@HiltViewModel`을 사용합니다.
 
-@HiltAndroidApp은 Dagger2의 @Component, @AndroidEntryPoint, @HiltViewModel 등은 @SubComponent로 보면 됩니다. Hilt에서는 Dagger2에서 했던 Field Injection 등을 위한 일련의 절차를 거칠 필요가 없습니다. Hilt에서 내부적으로 처리해줍니다.
+`@HiltAndroidApp`은 Dagger2의 `@Component`, `@AndroidEntryPoint`, `@HiltViewModel` 등은 `@SubComponent`로 보면 됩니다. Hilt에서는 Dagger2에서 했던 Field Injection 등을 위한 일련의 절차를 거칠 필요가 없습니다. Hilt에서 내부적으로 처리해줍니다.
 
 Dagger2에서 Field Injection을 위해 거치는 개략적인 절차입니다.
 
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity {
 
     override fun onCreate(savedInstanceState: Bundle){
         application?.let {
-            component.inject(this)
+            component.inject(this@MainActivity)
             classA.execute()
         }
     }
@@ -87,15 +87,15 @@ class MainActivity : AppCompatActivity {
     lateinit var classA: ClassA
 
     override fun onCreate(savedInstanceState: Bundle){
-        classA.execute()
+        classA.execute() // 바로 호출
     }
 }
 ```
 
-Reflection is a java tool that lets you get information about the properties, super classes, implemented interfaces, methods of a class and more by parsing the source code, bytecode or memory at runtime. Reflection has a big problem: performance. Yet parsing the code through reflection is something a tool nneds to do to understand the dependencies between the different classes of your app. Square had the great idea of moving the code parsing before the compilation task by using an annotation processor. The goal of this code generation task i s to create the code you execute to achieve dependency injection.
-Java and Kotlin botu compiled launguage -> compiler that translates your source code into bytecode, passing through some intermediate stages. To understand what the build process is, do a simple experement. Create a new Kotlin project with IntelliJ, and select the build task from the Gradle window, as in Figure 6.2:
-This is quire self-explanatory, and some of the tasks have been removed to save space.
-- Parsing the source code: Searching for custom annotations with data that provides additional information about the code itself.
-- Parsing the source code
-- Generating source files: create source files that the compiler will add to the existing ones????
-- 
+자바는 리플렉션(Reflection)이라는 툴을 제공합니다. 리플렉션이란 특정 클래스의 프로퍼티, 부모 클래스, 구현한 인터페이스, 메서드 등의 정보를 소스코드·바이트코드 혹은 메모리 파싱을 통해 런타임 환경에서 분석할 수 있는 도구입니다. 이는 런타임 환경에서 이루어지는 것이기 때문에 성능 저하의 요인이 될 수 있습니다. Square사는 annotation processor을 이용하여 컴파일 작업을 수행하기 이전에 코드 파싱이 이루어지도록 하는 획기적인 아이디어를 생각해 냈습니다.
+
+### annotation processor란?
+- 소스코드를 파싱하는 기능
+- 소스 파일을 생성하는 기능
+
+
