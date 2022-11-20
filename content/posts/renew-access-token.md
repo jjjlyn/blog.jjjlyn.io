@@ -2,8 +2,6 @@
 title: "액세스 토큰을 어떻게 단 한번만 갱신할 수 있을까?"
 date: 2022-11-18T13:39:56+09:00
 draft: false
-categories:
-- Android
 tags:
 - Android
 ---

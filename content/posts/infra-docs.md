@@ -2,8 +2,6 @@
 title: "인프라 회고록 (목차)"
 date: 2022-11-15T13:39:56+09:00
 draft: false
-categories:
-- Infra
 tags:
 - Infra
 ---

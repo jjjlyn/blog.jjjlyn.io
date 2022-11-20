@@ -2,8 +2,6 @@
 title: "스타트업 앱 서비스 배포 경험기"
 date: 2022-11-16T13:39:56+09:00
 draft: false
-categories:
-- Infra
 tags:
 - Infra
 ---

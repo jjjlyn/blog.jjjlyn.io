@@ -2,8 +2,6 @@
 title: "안드로이드 개발 회고록 (목차)"
 date: 2022-11-17T13:39:56+09:00
 draft: false
-categories:
-- Android
 tags:
 - Android
 ---
@@ -28,17 +26,13 @@ tags:
     - 고급: 쿠팡이츠 슬라이드 클론
 5. [대세는 Clean Architecture](/posts/clean-architecture/)
 6. [Model-View-Whatever](/posts/data-presentation-architecture/)
-7. [Hilt란 무엇이며, 왜 DI 툴로 Hilt를 선택했는가 (2022-11-14)](/posts/di/)
+7. [Hilt란 무엇이며, 왜 DI 툴로 Hilt를 선택했는가](/posts/di/)
 8. [디자인 시스템 적용기](/posts/design-system/)
     - 폰트 재사용
     - 레이아웃(컴포넌트) 재사용
 9.  [Coroutines & Flow 정확히 알고 쓰나 (90%)](/posts/coroutines-flow/)
 10. [앱 크래시 발생 어떻게 대응하는가](/posts/handle-app-crash/)
-11. [Gradle 설정 (feat. flavor)](/posts/gradle/)
-12. [프로가드](/posts/proguard/)
-13. [암호화 - 생략 가능](/posts/secret/)
-14. 테스트 (미정 - 생략 가능)
-15. [무중단 통합 ~ 배포까지 (완)](/infra/ci_cd/android-ci-cd/)
-16. [내비게이션을 쉽게]()
-
-<!-- 17. [BLE - 저전력 블루투스 통신](/posts/ble/) -->
+<!-- 11. [Gradle 설정 (feat. flavor)](/posts/gradle/) -->
+11. [프로가드](/posts/proguard/)
+12. [무중단 통합 ~ 배포까지 (완)](/infra/ci_cd/android-ci-cd/)
+13. [내비게이션을 쉽게]()

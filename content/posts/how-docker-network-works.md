@@ -2,8 +2,6 @@
 title: "도커 네트워크 구성"
 date: 2022-11-16T13:39:56+09:00
 draft: false
-categories:
-- Infra
 tags:
 - Infra
 ---
