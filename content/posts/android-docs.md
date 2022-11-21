@@ -19,7 +19,7 @@ tags:
    - ListAdapter
      - DiffUtil
      - PagingAdapter
-3. [Access Token을 어떻게 단 한번만 갱신할 수 있을까](/posts/renew-access-token/)
+3. [액세스 토큰(Access Token)을 어떻게 단 한번만 갱신할 수 있을까](/posts/renew-access-token/)
 4. [커스텀뷰 극복기](/posts/custom-view/)
     - 초보: 프로그래스바
     - 중급: 3*3 뷰페이저 인디케이터
