@@ -33,5 +33,5 @@ tags:
 9.  [Coroutines & Flow 정확히 알고 쓰나](/posts/coroutines-flow/)
 10. [앱 크래시 발생 어떻게 대응하는가](/posts/handle-app-crash/)
 11. [프로가드](/posts/proguard/)
-12. [무중단 통합 ~ 배포까지 (완)](/infra/ci_cd/android-ci-cd/)
+12. [무중단 통합 ~ 배포까지](/posts/android-ci-cd/)
 13. [내비게이션을 쉽게]()

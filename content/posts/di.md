@@ -6,8 +6,6 @@ tags:
 - Android
 ---
 
-# DI (Dependency Injection)
-
 DI란 특정 클래스(객체) 안에서 필요한 객체를 생성·사용하는 대신, 외부에서 생성하여 이를 필요로 하는 클래스에 주입하여 사용하는 일종의 테크닉입니다. 객체지향의 SOLID 원칙 중 하나인 제어의 역전(DIP)을 구현한 방법 중 하나입니다. 구현체(Implementation)보다 추상체(Abstraction)에 의존하여 프로그래밍하는 것을 권장합니다.
 
 ## Dependency란?

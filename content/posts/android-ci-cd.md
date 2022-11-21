@@ -2,8 +2,6 @@
 title: "안드로이드 어플리케이션 CI/CD 파이프라인 구축"
 date: 2022-11-16T13:39:56+09:00
 draft: false
-categories:
-- Android
 tags:
 - Android
 ---
