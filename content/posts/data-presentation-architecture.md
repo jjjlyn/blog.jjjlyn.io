@@ -1,5 +1,5 @@
 ---
-title: "Data Presentation Architecture"
+title: "Model-View-Whatever"
 date: 2022-11-18T13:39:56+09:00
 draft: true
 tags:

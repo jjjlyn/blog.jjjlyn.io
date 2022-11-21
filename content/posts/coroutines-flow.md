@@ -1,5 +1,5 @@
 ---
-title: "Coroutines & Flow"
+title: "Coroutines & Flow 정확히 알고 쓰나"
 date: 2022-11-18T13:39:56+09:00
 draft: false
 tags:

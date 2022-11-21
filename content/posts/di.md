@@ -1,5 +1,5 @@
 ---
-title: "DI(Dependency Injection)란"
+title: "Hilt란 무엇이며, 왜 DI 툴로 Hilt를 선택했는가"
 date: 2022-11-18T13:39:56+09:00
 draft: true
 tags:

@@ -4,6 +4,7 @@ date: 2022-11-16T13:39:56+09:00
 draft: false
 tags:
 - Android
+- Infra
 ---
 
 빌드와 배포용 도구로 **Azure Pipelines**를 사용합니다.

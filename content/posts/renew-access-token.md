@@ -1,5 +1,5 @@
 ---
-title: "어떻게 액세스 토큰(Access Token)을 단 한번만 갱신할 수 있을까?"
+title: "액세스 토큰(Access Token)을 어떻게 단 한번만 갱신할 수 있을까?"
 date: 2022-11-20T11:35:56+09:00
 draft: false
 tags:

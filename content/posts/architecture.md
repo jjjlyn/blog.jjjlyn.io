@@ -1,5 +1,5 @@
 ---
-title: "Android Architecture"
+title: "안드로이드 기본 중의 기본 - Android Architecture"
 date: 2022-11-18T13:39:56+09:00
 draft: false
 tags:

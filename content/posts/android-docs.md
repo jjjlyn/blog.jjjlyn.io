@@ -31,7 +31,7 @@ tags:
     - 폰트 재사용
     - 레이아웃(컴포넌트) 재사용
 9.  [Coroutines & Flow 정확히 알고 쓰나](/posts/coroutines-flow/)
-10. [앱 크래시 발생 어떻게 대응하는가](/posts/handle-app-crash/)
+10. [앱 크래시(비정상적 종료) 대응 방법](/posts/handle-app-crash/)
 11. [프로가드](/posts/proguard/)
-12. [무중단 통합 ~ 배포까지](/posts/android-ci-cd/)
+12. [안드로이드 어플리케이션 CI/CD 파이프라인 구축](/posts/android-ci-cd/)
 13. [내비게이션을 쉽게]()
