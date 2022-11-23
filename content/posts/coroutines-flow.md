@@ -110,7 +110,7 @@ Job 객체의 subclass인 Deffered가 반환됩니다. `launch()`가 람다의 �
 
 **runBlocking()**
 
-suspend 함수를 코루틴 밖에서 호출하고 싶을 경우 사용합니다. 나만의 코루틴을 설정할 수 없는 경우(그런 권한이 없는 곳에서 e.g. 안드로이드 프레임워크 메서드)에 `runBlocking`을 호출하면 `runBlocking`이 불린 스레드(e.g. main에서 `runBlocking`을 호출했다면 main)에 속한 모든 코루틴 launcher가 block 됩니다. `runBlocking`도 다른 코루틴 launcher와 마찬가지로 람다를 제공하여 코루틴을 그 내부에서 실행할 수 있습니다. 코루틴 작업이 완료되고 나서야 비로소 스레드의 block이 풀립니다. **즉 runBlocking 블록 내부에서 suspend 키워드를 만났다고 다른 코루틴으로 갈아타는 것이 아니라 계속 대기 상태로 있게 됩니다.** runBlocking으로 실행한 코루틴은 
+suspend 함수를 코루틴 밖에서 호출하고 싶을 경우 사용합니다. 나만의 코루틴을 설정할 수 없는 경우(그런 권한이 없는 곳에서 e.g. 안드로이드 프레임워크 메서드)에 `runBlocking`을 호출하면 `runBlocking`이 불린 스레드(e.g. main에서 `runBlocking`을 호출했다면 main)에 속한 모든 코루틴 launcher가 block 됩니다. `runBlocking`도 다른 코루틴 launcher와 마찬가지로 람다를 제공하여 코루틴을 그 내부에서 실행할 수 있습니다. 코루틴 작업이 완료되고 나서야 비로소 스레드의 block이 풀립니다. **즉 runBlocking 블록 내부에서 suspend 키워드를 만났다고 다른 코루틴으로 갈아타는 것이 아니라 계속 대기 상태로 있게 됩니다.** 
 
 ## suspend Function
 

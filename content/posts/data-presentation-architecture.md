@@ -1,43 +1,37 @@
 ---
 title: "Model-View-Whatever"
-date: 2022-11-18T13:39:56+09:00
-draft: true
+date: 2022-11-23T13:39:56+09:00
+draft: false
 tags:
 - Android
 ---
 
-# Android Data Presentation Architecture - MVC, MVP, MVVM, MVI
+> MV-xxx 패턴 진짜 안 헷갈리시나요? 3년차 개발자인 저는 부끄럽지만 아직도 제대로 이해하고 쓰는 건지 모르겠습니다. MVC, MVP, MVVM, 여기서 발전한 MVI까지...
+> 
+> 최근 모스타트업 기술면접에서 MVVM 아키텍처를 설명해보라는 질문이 들어왔습니다. 분명 지겹도록 이를 적용해 왔고 문서로 따로 정리를 하기도 했었죠. 그러나 머리로는 이해를 했으나 가슴으로 받아들이지 못한 것인지 MVP와 비교하기 시작하면 몹시 헷갈리더라고요. 왜 MVVM이 *unidirectional*이고 MVP가 *bidirectional*인지 제대로 설명했어야 했는데 면접 중 갑자기 '그런데 왜 MVVM이 단방향 흐름이지?' 라고 스스로 의문이 들어 자가당착에 빠졌었네요.
 
-MVC, MVP, MVVM, MVI 등 `MV` 접두어가 달린 친구들은 **Data Presentation(Clean Architecture 관점에서 Presentation Layer)을 위한 소프트웨어 아키텍처 패턴**입니다.(**안드로이드 앱 전체를 위한 아키텍처로 착각하면 안 됩니다!!**) GUI 어플리케이션은 어찌되었든 사용자에게 fancy~~한 화면을 보여주는게 주 목적입니다. [오늘도 개발자가 안 된다고 말했다](http://www.yes24.com/Product/Goods/97919905)라는 책을 아시나요? UI 변경은 하루가 멀다하고 일어나는 이슈입니다. 그렇기 때문에 외형만 바꾸되 그 기반을 이루는 데이터에 변형이 일어나지 않도록 하는 것이 리소스(시간, 비용) 측면에서 매우 중요합니다. 예를 들어 UI 변경 부분, UI 변경 외(外) 부분 등 소스코드의 역할을 나누면 유지보수가 쉬워지겠죠. 더불어 UI 관련 외 부분에 대한 유닛 테스트(Unit test)도 가능해질 것입니다. 즉 `Model-View-Whatever` 소프트웨어 아키텍처 패턴은 관심사 분리(Separation of Concern)와 테스트하기 쉬운 코드 작성(Testable Code)을 위한 것입니다.
+<figure style="display:block; text-align:center;">
+  <img src="/images/naneun-solo-youngcheol-gaesori.jpg">
+  <figcaption style="text-align:center; font-size:15px; color:#808080">
+    아.. 영철 아저씨의 말을 새겨들어야 하거늘 ㅠㅠ 이해는 가슴으로 합시다
+  </figcaption>
+</figure>
 
-## Model And View가 정확히 의미하는 바는?
+MV-xxx 친구들은 View(Activity, Fragment 등)가 비대(~~뚱뚱~~)해지지 않도록 관리하는 차원에서 나온 아키텍처 입니다. 착각하면 안 되는게 **안드로이드 앱 전체를 위한 아키텍처가 아닙니다.** View를 관리하기 위한 아키텍처 입니다. Clean Architecture에 의거하면 Data Presentation Layer를 위한 아키텍처라고도 할 수 있겠습니다.
 
-**Model**
-
-우리가 유닛 테스트 할 수 있는 것에는 무엇이 있을까?
-의심스러운 디자인 테크닉. 기술적 한계는 코드가 device 혹은 emulator 기반으로 실행된다는 것이다. 우리는 개발 환경에서 테스트하고 싶잖아. 그래서 androidTest와 test 디렉토리가 나뉜거다. 이론적으로 유닛 테스트를 작성해서 에뮬레이터 환경에서 돌릴 순 있지만 안정성도 떨어지고 시간도 오래 걸린다. 클라우드(Firebase Test Lab) 에뮬 환경에서 돌린다고 하면 이건 돈이 많이 든다. 현실적으로 로컬 유닛 테스트를 많이 해봐야 한다는건데, 이걸 해결하기 위해 우리는 안드로이드 컴포넌트와 자바 컴포넌트를 분리한 것이다. 
-
-ConcreteData로부터 field1만 읽다가 field1 + field2의 결과값을 보여주려면 어떻게 해야하는가?
-MainActivity에서 concatenation을 하거나 ConcreteData 클래스에 결합된 문자열이 반환되는 메소드를 추가할 수 있을 것이다. 그러나 둘 다 단점이 있다. MainActivity에서 문자열 결합이 이루어지면 이걸 유닛 테스트하기가 상당히 어려워진다. 만약 ConcreteData 내부에 메소드를 추가한다고 하면, UI를 업데이트 하는 역할만 하는 ConcreteData에 다른 역할을 부여(비지니스 로직?)하는 것이기 때문에 이 또한 문제가 된다. 만약 미래에, 네트워크 통신을 다른 팀에 의지하고 있으면 어떻게 할 것인가? 
-
-**View**
-
-## 비지니스 로직이란 무엇인가?
-
-CRUD 아님. UI 업데이트 로직 아님. 
+View는 기본적으로 테스트하기 난감합니다. UI를 직접 업데이트하는 기능을 포함하고 있어 플랫폼 종속적이기 때문입니다. 이 말은 즉슨 UI를 업데이트하는 기능만 View에 남겨두고, 플랫폼에 종속적이지 않은 다른 기능은 다른 클래스로 빼버리면 그 클래스는 테스트가 용이할 수 있다는 의미입니다.
 
 ## MVC (Model-View-Controller)
-
+MVC는 간단하게 언급만 하고 넘어가겠습니다. 여기서 Model은 간단히 말해 화면에 표시할 데이터라고 보면 됩니다. View는 사용자에게 보일 화면입니다(레이아웃과 Activity/Fragment 등). Controller는 Model과 View를 묶는 역할을 합니다. View에 Model을 표시합니다. View인 `R.layout.activity_main`은 `MainActivity`에 표시됩니다. 이제 inflate된 View의 자식인 텍스트뷰(이 역시 View)에 특정 데이터(Model)를 표시하는 역할(`setText()`)을 Controller가 담당합니다. 이로써 Controller에 의해 Model과 View가 묶이게 됩니다. 안드로이드에서는 이 MVC 패턴을 적용해봐야 코드 개선이 안됩니다. 테스트하기 어렵습니다. 왜냐하면 **Activity/Fragment가 View와 Controller의 역할 모두를 수행하기 때문입니다.** 이 말인 즉슨 View와 Controller의 경계선이 모호하다는 말입니다. Activity/Fragment가 필연적으로 비대해질 수밖에 없는 구조입니다.
 
 ## MVP (Model-View-Presenter)
 
 ![MVP](/images/android/mvp.png)
 
-비록 실무에서 사용하지는 않았으나 아키텍처 패턴의 변천기를 아는 것은 여전히 중요하기에 간단히 다룹니다.
+안드로이드 초창기(Activity만 있던 시절)에는 MVC와 유사한 아키텍처 패턴을 주로 사용했습니다. 그러나 Activity는 인스턴스화 할 수 없고 오로지 Intent를 사용하여 시작할 수 있습니다. Activity를 직접적으로 인스턴스화 하지 못하기 때문에 Activity constructor에 특정 의존성을 주입할 수 없습니다. 또한 Activity는 생명주기를 갖고 있어 이를 모두 상속받아야 합니다. 그리하여 특별한 테스트 도구가 없는 한 유닛 테스팅이 어려워 실제 기기나 AVD 에뮬레이터를 통해 통합 테스트에 의존할 수밖에 없게 됩니다. 특별한 Test Tool(e.g. Roboletric)이나 통합 테스트를 사용하는 것은 속도가 느리기도 하거니와, Firebase Test Lab과 같은 Testing Cloud를 이용하는 경우 비용적인 측면에서도 부담이 있기도 합니다.
+이러한 문제를 해결하기 위해 Activity와 추후 나타난 Fragment를 위한 Humble Object 패턴이 도입됩니다. 이는 Activity의 View + Controller 기능이 얽히고 섥힌 복잡다단한 로직을 최대한 추출해서 분리하는 패턴입니다. 그 중 유명한 방법이 MVP 아키텍처 패턴입니다. Model과 View는 MVC의 MV와 같습니다. 
 
-안드로이드 초창기에는 MVC와 유사한 아키텍처 패턴을 주로 사용했습니다. 안드로이드의 MVC에서는 Activity 혹은 Fragment가 Controller와 View의 역할 모두를 수행하며, Model은 데이터를 
-Activity를 최대한 많이 만들어서 다른 앱들과 통신하기 위함. 이러한 이유로 액티비티는 인스턴스화 할 수 없고 오로지 인텐트를 사용하여 시작할 수 있음. 액티비티를 직접적으로 인스턴스화 하지 못하기 때문에 액티비티 생성자에 특정 의존성을 주입할 수가 없다. 또한 액티비티는 생명주기를 갖고 있어 이를 모두 상속받아야 한다. 그리하여 액티비티는 특별한 테스트 도구가 없는 한 유닛 테스팅이 어려워 실제 기기나 AVD 에뮬레이터를 통해 통합 테스트에 의존하는 수밖에 없다. 특별한 테스트 도구(e.g. Roboletric)나 통합 테스트를 사용하는 것은 속도가 느리기도 하거니와, firebase test lab과 같은 테스팅 클라우드를 이용하는 경우 비용적인 측면에서도 부담이 있다.
-이러한 문제를 해결하기 위해 액티비티와 차후 나타난 프래그먼트를 위한 Humble Object 패턴이 도입된다. 이는 액티비티의 복잡다단한 로직을 최대한 추출해서 분리하는 패턴이다. 그 중 유명한 방법이 MVP 아키텍처 패턴이다. 액티비티와 뷰계층(android.widget.View)은 View가 되고, presenter는 모델로부터 데이터를 가져와 비지니스 로직을 수행하며, 모델은 mvc의 m의 역할을 수행한다. 즉 어플리케이션의 데이터를 관리하는 역할을 한다. Presenter는 데이터를 가공하여 View에 업데이트한다. View 또한 user interaction이 발생했을 때 Present를 호출한다. 두 컴포넌트의 관계로 인해 둘 간의 관계(contract)를 인터페이스로 정의해야 한다.
+달라진 점은 Presenter입니다. 아래 코드는 Presenter를 interface로 정의한 것입니다.
 
 ```kt
 interface Presenter {
@@ -45,7 +39,11 @@ interface Presenter {
 
     fun validateInput(text: String)
 }
+```
 
+Presenter는 기존 Controller과는 다릅니다. Controller는 앞에서 언급한 바와 같이 `view.setText("blah blah")` 플랫폼 메서드를 직접 호출하여 화면에 데이터를 띄우는 역할을 합니다. 그러나 Presenter는 이 역할을 직접 하지 않고 **Activity/Fragment에 위임**합니다. 이 MVP 구조에서는, Activity/Fragment가 사용자 이벤트를 Presenter에 알립니다. Presenter는 View로부터 받은 사용자 이벤트를 처리합니다. 필요에 따라 Model에 View에 보내줄 필요할 데이터를 요청할 수도 있고, 필요한 데이터가 없으면 Presenter가 알아서 처리할 수도 있습니다. 예를 들어 Activity에서 EditText에 addTextChangedListener 콜백을 등록하여, 사용자 입력이 일어날 때마다 Presenter에 이벤트를 보낸다고 합시다(Presenter의 `validateInput()`을 호출한다고 합시다). Presenter는 View로부터 Input에 대한 정보를 받아서 이를 처리합니다. 어떻게 처리할까요? 아래 코드는 View interface를 정의한 것입니다.
+
+```kt
 interface View {
     fun showUsers(users: List<User>)
 
@@ -53,12 +51,16 @@ interface View {
 }
 ```
 
-뷰와 유즈케이스(모델)을 Presenter에서 모두 관리한다. PresenterImpl은 View와 GetUsersUseCase 객체에 의존성을 갖는다. GetUsersUseCase를 통해 사용자 목록을 받은 후 View의 showUsers()가 호출된다. 
+Presenter는 `validateInput()` 메서드 내부에서 View의 `showInputError()`을 호출하여, UI 처리를 Activity/Fragment에 위임합니다. 즉 Controller처럼 View와 Model을 직접적으로 연결해주는게 아니라, View가 알아서 UI 부분은 처리하도록 그 역할을 넘기는 것입니다.
+
+Presenter가 View의 이벤트를 받아 Model로부터 필요할 때 데이터를 받고 이벤트 발생에 대해 View에 적합한 처리(UI 업데이트)를 하도록 시키려면 Presenter는 View와 Model의 Reference를 모두 갖고 있어야 하겠죠.
+
+아래 코드는 Presenter의 구현체입니다.
 
 ```kt
 class PresenterImpl(
-    private val view: View,
-    private val getUsersUseCase: GetUsersUseCase
+    private val view: View, // View에 대한 Reference
+    private val getUsersUseCase: GetUsersUseCase // Model에 대한 Reference
 ): Presenter {
 
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -66,12 +68,17 @@ class PresenterImpl(
     override fun loadUsers(){
         scope.launch {
             getUsersUseCase.execute().collect { users ->
+                // View에 Model로부터 받은 데이터를 제공해주는 동시에 특정 UI 처리를 하도록 간접적으로 지시(?)합니다.
+                // 단 Presenter는 플랫폼과 독립되어 있으므로 UI 업데이트를 직접 관장하지 않습니다.
                 view.showUsers(users)
             }
         }
     }
 
+    // View로부터 받은 이벤트를 처리합니다.
     override fun validateInput(text: String){
+        // 이 경우 Model로부터 데이터를 받을 필요 없습니다.
+        // Presenter가 View에 특정 UI 처리를 하도록 간접적으로 지시합니다.
         if(text.isEmpty()){
             view.showInputError("Invalid input")
         }
@@ -79,11 +86,13 @@ class PresenterImpl(
 }
 ```
 
-View 구현체는 이런 식으로 표현된다. 
+다음은 View interface를 상속받은 MainActivity 입니다.
+
 ```kt
 class MainActivity : ComponentActivity(), View {
     @Inject
-    private lateinit val presenter: Presenter
+    lateinit val presenter: Presenter
+    
     private lateinit val usersAdapter: UsersAdapter
     private lateinint val editText: EditText
     private lateinit val errorView: TextView
@@ -94,6 +103,7 @@ class MainActivity : ComponentActivity(), View {
         editText.addTextChangedListener(object : 
             TextWatcher {
                 override fun afterTextChanded(s: Editable?){
+                    // View에서 일어난 Input 이벤트를 Presenter에 알립니다.
                     presenter.validateInput(s?.toString().orEmpty())
                 }
             }
@@ -107,42 +117,12 @@ class MainActivity : ComponentActivity(), View {
     }
 
     override fun showInputError(error: String){
+        // MainActivity는 플랫폼 의존적입니다. 
+        // 직접 UI를 업데이트하는 기능을 합니다.
         errorView.text = error
     }
 }
 ```
-
-Presenter가 백그라운드 작업 수행을 종료할 때 Context 누수가 발생할 수 있다. 액티비티 생명주기에 Presenter 객체의 메모리를 release하는 작업이 필요하다.
-
-```kt
-interface Presenter {
-    fun close()
-}
-```
-
-```kt
-override fun onDestroy(){
-    presenter.close()
-    super.onDestroy()
-}
-```
-
-```kt
-class PresenterImpl(
-    private val view: View,
-    private val getUsersUseCase: GetUsersUseCase
-): Presenter {
-    private val scope = CoroutineScope(Dispatchers.Main)
-
-    override fun close(){
-        scope.cancel()
-    }
-}
-```
-
-Flow 객체에 대한 구독을 취소했으니 Activity가 destroy되었을 때 더이상 업데이트를 받지 않게 된다.
-
-비록 이 MVC를 개선한 MVP가 초기에는 많이 쓰였고 아직도 많은 상용앱에서 사용하고 있지만, 이 또한 여러 문제를 야기한다. MVVM 패턴을 장착한 AAC 출시 이후, 추가적으로 Jetpack Compose까지 더해서 더 좋은 data flow를 제공한다.
 
 ## MVVM (Model-View-ViewModel)
 
