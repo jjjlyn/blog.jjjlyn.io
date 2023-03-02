@@ -1,16 +1,8 @@
 # About.
 
-안녕하세요:)</br>
-3년차 안드로이드 네이티브 개발자 정 린 입니다.
+<!-- ![Profile](https://github.com/jjjlyn/resume/blob/main/profile.jpeg?raw=true) -->
 
-![Profile](https://github.com/jjjlyn/resume/blob/main/profile.jpeg?raw=true)
-
-## Introduce.
-
-숲과 나무 모두를 보려고 노력하는 개발자 입니다.</br>
-
-헬스케어 관련 스타트업에서 2년간 소프트웨어 개발 업무를 담당하였습니다.</br>
-안드로이드 앱(네이티브)을 주로 다룹니다.</br>
+Android Native 주로 개발합니다.
 
 ## Contact.
 
@@ -21,6 +13,77 @@
 ## Work Experience.
 
 ### Company.
+workfit
+
+**Duration.**
+
+2023.04 ~ 
+
+* * *
+
+### Main Duties.
+
+**Project.**
+
+안드로이드 어플리케이션 개발
+
+**Tasks.**
+- 사용 언어: Kotlin
+- Jetpack Compose
+
+**Duration.**
+
+2022.12 - 2023.03
+
+* * *
+
+### Company.
+외주
+
+### Main Duties.
+
+**Project.**
+
+오뚜기몰 - 하이브리드 어플리케이션 1인 개발 (외주)
+
+**Tasks.**
+- 사용 언어: Kotlin
+- 1인 개발 · 배포 · 출시 · 유지보수
+- 웹뷰 연동
+
+**Duration.**
+
+2022.12 - 2023.01
+
+* * *
+
+**Project.**
+
+맘스터치 - 안드로이드 어플리케이션 유지보수 (외주)
+
+**Tasks.**
+- NHN Toast Push Notification 솔루션 연동
+
+**Duration.**
+
+2022.12 - 2022.12
+
+* * *
+
+**Project.**
+
+교촌치킨 - 안드로이드 어플리케이션 유지보수 (외주)
+
+**Tasks.**
+- 웰컨(Welconn) 솔루션 연동
+
+**Duration.**
+
+2022.12 - 2022.12
+
+* * *
+
+<!-- ### Company.
 [(주)헤이드컴퍼니](https://www.hayd.app/)
 
 ### Main Duties.
@@ -132,38 +195,38 @@
 - 다국어 처리 (베트남)
 - Retrofit을 통한 서버 API 연동
 - MVVM 아키텍처(Jetpack AAC ViewModel) 적용
-- Google Maps Android API 연동 (앱 사용자 동향 파악)
+- Google Maps Android API 연동 (앱 사용자 동향 파악) -->
 
-### Working Period.
-*2019.07 - 2019.12*
+<!-- ### Working Period.
+*2019.07 - 2019.12* -->
 
 ## Education.
 
 |교육 기관|내용|기간|
 |--------|----|---|
-|패스트캠퍼스|Flutter로 구현하는 크로스플랫폼 앱 개발|2019.12 - 2020.02|
-|이화여자대학교|커뮤니케이션 미디어학(학사)|2015.03 - 2020.08|
+|이화여자대학교|-|2015.03 - 2020.08|
+<!-- |패스트캠퍼스|Flutter로 구현하는 크로스플랫폼 앱 개발|2019.12 - 2020.02| -->
 
 ## Other Experience.
 
 |종류|내용|기간|링크|
 |--------|----|----|----|
-|사이드 프로젝트 teamMOC|안드로이드 어플리케이션 1인 개발|2021.11 ~ In Progress.|[바로가기](https://github.com/jjjlyn/moc-android)|
-|Java 스터디|주 1회 [자바의 정석(남궁성 저)](https://book.interpark.com/product/BookDisplay.do?_method=detail&sc.prdNo=249927409&gclid=CjwKCAjwzY2bBhB6EiwAPpUpZl3z6k4HoAdQ1NWLRaoO0kVfB4jTuo0b-WcYyvXNjoLtflAQ3Bt0VxoCzwwQAvD_BwE) 발표 스터디|2021.05 - 2021.08|-|
 |사이드 프로젝트 동아리 DDD 5기|안드로이드 포지션으로 참여|2021.03 - 2021.08|[발표자료 바로가기](https://github.com/jjjlyn/DDD-5-Android-Session)|
-|Design Pattern 스터디|주 2회 [GoF의 디자인 패턴](http://www.yes24.com/Product/Goods/17525598) 발표 스터디|2021.01 - 2021.03|[바로가기](https://github.com/CS-Study-Team/DesignPattern)|
+<!-- |사이드 프로젝트 teamMOC|안드로이드 어플리케이션 1인 개발|2021.11 ~ In Progress.|[바로가기](https://github.com/jjjlyn/moc-android)|
+|Java 스터디|주 1회 [자바의 정석(남궁성 저)](https://book.interpark.com/product/BookDisplay.do?_method=detail&sc.prdNo=249927409&gclid=CjwKCAjwzY2bBhB6EiwAPpUpZl3z6k4HoAdQ1NWLRaoO0kVfB4jTuo0b-WcYyvXNjoLtflAQ3Bt0VxoCzwwQAvD_BwE) 발표 스터디|2021.05 - 2021.08|-| -->
+<!-- |Design Pattern 스터디|주 2회 [GoF의 디자인 패턴](http://www.yes24.com/Product/Goods/17525598) 발표 스터디|2021.01 - 2021.03|[바로가기](https://github.com/CS-Study-Team/DesignPattern)| -->
 
 ## Languages.
 
 |언어|수준|취득|
 |------|---|---|
-|영어|독해 ■ ■ ■ ■ ■<br>청취 ■ ■ ■ ■ □<br>작문 ■ ■ ■ ■ □<br>회화 ■ ■ □ □ □|TOEIC 940 (2019-2021)|
-|중국어|독해 ■ ■ ■ ■ □<br>청취 ■ ■ ■ □ □<br>작문 ■ ■ ■ ■ ■<br>회화 ■ ■ ■ ■ ■|新HSK 6급 220 (2018-2020)|
+|영어|중상|TOEIC 940 (2019-2021)|
+|중국어|상|新HSK 6급 220 (2018-2020)|
 
-## Skills.
+<!-- ## Skills.
 
 |종류|툴|
 |---|---|
 |개발|Git|
 |문서|Notion, Figma|
-|협업|Slack, Jira|
+|협업|Slack, Jira| -->

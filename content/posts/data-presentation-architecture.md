@@ -127,33 +127,23 @@ class MainActivity : ComponentActivity(), View {
 ## MVVM (Model-View-ViewModel)
 
 ![MVVI](/images/android/mvvi.png)
-AAC(Android Architecture Components)를 통해 뷰 업데이트 로직과 비지니스 로직을 분리합니다.
 
-MVVM은 액티비티나 프래그먼트로부터 로직을 추출하는 Humble Object 패턴과는 다른 접근방식이다. View는 액티비티 혹은 프래그먼트, Model은 data management, ViewModel은 View가 요청할 때 Model로부터 데이터를 요청합니다. 세 컴포넌트는 단방향의 흐름을 갖습니다. View는 ViewModel에 의존하고, ViewModel은 Model에 의존합니다. 많은 View가 동일한 ViewModel을 사용할 수 있기 때문에 유연합니다. View에서 데이터를 업데이트 하기 위해 ViewModel은 Observer 패턴으로 구현해야 합니다. ViewModel은 Observable을 이용하여, View가 이를 구독하고 데이터를 실시간으로 변경할 수 있도록 해야 합니다. 
+MVVM의 ViewModel은 AAC(Android Architecture Component) ViewModel과 무관합니다. MVVM 패턴은 마이크로소프트가 고안한 것이며, 
+Complex maintenance issues can arise as apps are modified Complex maintentance issues can arise as apps are modified and grow in size and scope. These issues inclde the tight coupling between the UI controls and the business logic, which increases the cost of making UI modifications, and the difficulty of unit testing such code. 
+Separate the application's business and presentation logig cform its user interface. Data Binding and Commands -> ViewModel updates the model'
 
-AAC 라이브러리는 ViewModel 클래스를 제공하는데, 이는 액티비티와 프래그먼트의 생명주기에 맞춰 데이터 흐름을 관리합니다. Coroutine extensions와 결합된 AAC ViewModel은 액티비티나 프래그먼트가 더이상 데이터를 받으면 안되는 생명주기 상태에 있을 때 Flow 혹은 Coroutine의 구독을 중지하여 컨텍스트 누수를 막습니다.
+MVVM은 Activity나 Fragment로부터 로직을 추출하는 Humble Object 패턴과는 다른 접근방식입니다. Model, View, ViewModel 세 컴포넌트는 **의존성 측면에서 단방향의 흐름을 갖습니다.** View는 ViewModel에 의존하고, ViewModel은 Model에 의존합니다. 
 
-Clean Architecture 관점에서 ViewModel은 UseCase로부터 데이터를 가져온 후 entity를 Framework 계층이 필요로 하는 객체로 변환하는 역할을 합니다(데이터 가공처리). 또한 사용자가 넘긴 데이터를 entity로 가공하여 UseCase로 넘기는 반대의 역할도 수행합니다. 
+<details>
+<summary>여기서 단방향이란</summary>
+<div markdown="1">
 
-```kt
-class MyViewModel(
-    private val getUsersUseCase: GetUsersUseCase
-): ViewModel(){
+단방향의 흐름을 갖는다는 의미가 갑자기 혼란을 주었던 이유는, View가 이벤트를 ViewModel에 전달하면 ViewModel이 View에 데이터를 제공해주는 것이 아닌가하는 의문이 들었기 때문입니다. 일단 여기서 ViewModel이 View에 데이터를 제공하는 것부터 틀린 말입니다. View는 ViewModel에 의존성을 갖고, ViewModel의 변수를 구독(관찰)하는 것이지, ViewModel이 View에 데이터를 직접 제공하거나 하지는 않습니다.
 
-    private val _usersFlow = MutableStateFlow<List<UiUser>>(listOf<UiUser>())
-    val usersFlow: StateFlow<List<UiUser>> = _usersFlow
+</div>
+</details>
 
-    fun load(){
-        viewModelScope.launch {
-            getUsersUseCase.execute().map {
-                // Convert List<User> to List<UiUser>
-            }.collect {
-                _usersFlow.value = it
-            }
-        }
-    }
-}
-```
+MVVM은 
 
 ## MVI (Model-View-Intent)
 
